@@ -19,32 +19,40 @@ class Board
     end
 
     def starting_locations(player)
-      color = player.color
-      color == 'white' ? number = 7 : number = 0
-      starting_pawn(color)
-      starting_other(color,number)
+      if player.computer_game == false
+        player.color == 'white' ? number = 7 : number = 0
+      else
+        player.color == 'white' ? number = 0 : number = 7 
+      end
+      starting_pawn(player)
+      starting_other(player, number)
     end
 
-    def starting_other(color, number)
+    def starting_other(player, number)
       @board[number] = [
-        Rook.new(color, [number, 0]),
-        Knight.new(color, [number, 1]),
-        Bishop.new(color, [number,2]),
-        Queen.new(color, [number, 3]),
-        King.new(color, [number,4]),
-        Bishop.new(color, [number,5]),
-        Knight.new(color, [number, 6]),
-        Rook.new(color, [number, 7])
+        Rook.new(player.color, [number, 0]),
+        Knight.new(player.color, [number, 1]),
+        Bishop.new(player.color, [number,2]),
+        Queen.new(player.color, [number, 3]),
+        King.new(player.color, [number,4]),
+        Bishop.new(player.color, [number,5]),
+        Knight.new(player.color, [number, 6]),
+        Rook.new(player.color, [number, 7])
       ]
     end
 
-    def starting_pawn(color)
-      number = 6 if color == 'white'
-      number = 1 if color == 'black'
+    def starting_pawn(player)
+      if player.computer_game == false
+        number = 6 if player.color == 'white'
+        number = 1 if player.color == 'black'
+      else 
+        number = 1 if player.color == 'white'
+        number = 6 if player.color == 'black'
+      end
 
       8.times do |index|
         @board[number][index] =
-        Pawn.new(color, [number, index])
+        Pawn.new(player.color, [number, index])
       end
     end
 

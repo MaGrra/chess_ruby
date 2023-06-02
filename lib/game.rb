@@ -49,9 +49,9 @@ attr_accessor :player1, :player2
             puts "Enter your name"
             name = gets.chomp
             color = valid_color_input
-            @player1 = Player.new(name, color)
+            @player1 = Player.new(name, color, true)
             color == 'white' ? pc_color = 'black' : pc_color = 'white'
-            @player2 = Player.new('Computer', pc_color)
+            @player2 = Player.new('Computer', pc_color, true)
         end
     end
 
