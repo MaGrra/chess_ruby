@@ -5,35 +5,69 @@ require_relative './player'
 require_relative './color'
 
 class Game
-attr_accessor :player1, :player2
+attr_accessor :player1, :player2, :current_player
 
     def initialize
         @board = Board.new
-        setup
     end
 
     def setup
-        register_players
-        
+        register_players 
+        set_board
+        first_player
+    end
+
+    def first_player
+        @player2.color == 'white' ? @current_player = @player1 : @current_player = @player2
+    end
+
+    def play_game
+        setup
+        @current_player = switch_players
+        make_move
+    end
+
+    def make_move
+        puts "\It's #{@current_player.name}'s move! Chose which piece to move!"
+        puts "Example - c2"
+        chose_piece(valid_choice)
+    end
+
+
+    def valid_choice
+        choice = gets.chomp.chars
+        if choice.length != 2 
+            puts "The format used should be like this c2\n"
+            valid_choice
+        else
+            return choice
+        end
+    end
+
+    def switch_players
+        @current_player == @player1 ? @player2 : @player1
+    end
+
+    def set_board
         @board.starting_locations(@player1)
         @board.starting_locations(@player2)
         @board.print_board
     end
 
     def register_players
-        puts "Press 1 to play Human vs Human"
-        puts "Press 2 to play Human vs Computer"
+        puts "Press 1 to play Human vs Human\n"
+        puts "Press 2 to play Human vs Computer\n\n"
         answer = gets.chomp.to_i
         if answer == 1
-            puts "You have chosen to play Human vs Human"
+            puts "\nYou have chosen to play Human vs Human\n\n"
             sleep(0.5)
             set_players(answer)
         elsif answer == 2
-            puts "You have chosen to play vs Computer"
+            puts "\nYou have chosen to play vs Computer\n\n"
             sleep(0.5)
             set_players(answer)
         else 
-            puts "Please press 1 OR 2"
+            puts "Please press 1 OR 2".bold
             register_players
         end
     end
