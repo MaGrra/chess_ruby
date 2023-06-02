@@ -9,9 +9,60 @@ attr_reader :symbol, :location
         @symbol = ' ♙ '
     end
 
+end
 
-    def place_piece
-        
+class Rook < Piece
+attr_accessor :symbol, :location
+
+    def initialize(color, location)
+        @color = color
+        @location = location
+        @symbol = ' ♖ '
     end
 
 end
+
+class Knight < Piece
+    attr_reader :symbol, :location
+    
+        def initialize(color, location)
+            @color = color
+            @location = location
+            @symbol = ' ♘ '
+        end
+    
+    end
+
+class Bishop < Piece
+    attr_reader :symbol, :location
+    
+        def initialize(color, location)
+            @color = color
+            @location = location
+            @symbol = ' ♗ '
+        end
+    
+    end
+
+class Queen < Piece
+    attr_reader :symbol, :location
+    
+        def initialize(color, location)
+            @color = color
+            @location = location
+            @symbol = ' ♕ '
+        end
+    
+    end
+
+
+class King < Piece
+    attr_reader :symbol, :location
+    
+        def initialize(color, location)
+            @color = color
+            @location = location
+            @symbol = ' ♔ '
+        end
+    
+    end

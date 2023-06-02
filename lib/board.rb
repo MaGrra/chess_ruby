@@ -20,6 +20,20 @@ class Board
 
     def starting_locations(color)
       starting_pawn(color)
+      starting_other(color)
+    end
+
+    def starting_other(color)
+      @board[7] = [
+        Rook.new(color, [7, 0]),
+        Knight.new(color, [7, 1]),
+        Bishop.new(color, [7,2]),
+        Queen.new(color, [7, 3]),
+        King.new(color, [7,4]),
+        Bishop.new(color, [7,5]),
+        Knight.new(color, [7, 6]),
+        Rook.new(color, [7, 7])
+      ]
     end
 
     def starting_pawn(color)
@@ -39,7 +53,7 @@ class Board
         @board.each do |row|
           temp_row = []
           row.each do |cell|
-            cell = cell.instance_of?(Pawn) ? background_color(cell) : cell
+            cell = cell.is_a?(Piece) ? background_color(cell) : cell
             temp_row << cell
           end
           printed << temp_row
