@@ -6,7 +6,7 @@ attr_reader :symbol, :location
     def initialize(color, location)
         @color = color
         @location = location
-        @symbol = ' ♙ '
+        color == 'white' ? @symbol = ' ♙ ' : @symbol = ' ♟︎ '
     end
 
 end
@@ -17,7 +17,7 @@ attr_accessor :symbol, :location
     def initialize(color, location)
         @color = color
         @location = location
-        @symbol = ' ♖ '
+        color == 'white' ? @symbol = ' ♖ ' : @symbol = ' ♜ '
     end
 
 end
@@ -28,7 +28,7 @@ class Knight < Piece
         def initialize(color, location)
             @color = color
             @location = location
-            @symbol = ' ♘ '
+            color == 'white' ? @symbol = ' ♘ ' : @symbol = ' ♞ '
         end
     
     end
@@ -39,7 +39,7 @@ class Bishop < Piece
         def initialize(color, location)
             @color = color
             @location = location
-            @symbol = ' ♗ '
+            color == 'white' ? @symbol = ' ♗ ' : @symbol = ' ♝ '
         end
     
     end
@@ -50,7 +50,7 @@ class Queen < Piece
         def initialize(color, location)
             @color = color
             @location = location
-            @symbol = ' ♕ '
+            color == 'white' ? @symbol = ' ♕ ' : @symbol = ' ♛ '
         end
     
     end
@@ -62,7 +62,7 @@ class King < Piece
         def initialize(color, location)
             @color = color
             @location = location
-            @symbol = ' ♔ '
+            color == 'white' ? @symbol = ' ♔ ' : @symbol = ' ♚ '
         end
     
     end

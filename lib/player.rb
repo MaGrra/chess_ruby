@@ -7,8 +7,4 @@ attr_reader :color, :name
         @computer_game = computer_game
     end
 
-    def set_pieces(color)
-        @pawn = Pawn.new
-    end
-
 end

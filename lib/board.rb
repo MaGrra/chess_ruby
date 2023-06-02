@@ -18,28 +18,33 @@ class Board
         end
     end
 
-    def starting_locations(color)
+    def starting_locations(player)
+      color = player.color
+      color == 'white' ? number = 7 : number = 0
       starting_pawn(color)
-      starting_other(color)
+      starting_other(color,number)
     end
 
-    def starting_other(color)
-      @board[7] = [
-        Rook.new(color, [7, 0]),
-        Knight.new(color, [7, 1]),
-        Bishop.new(color, [7,2]),
-        Queen.new(color, [7, 3]),
-        King.new(color, [7,4]),
-        Bishop.new(color, [7,5]),
-        Knight.new(color, [7, 6]),
-        Rook.new(color, [7, 7])
+    def starting_other(color, number)
+      @board[number] = [
+        Rook.new(color, [number, 0]),
+        Knight.new(color, [number, 1]),
+        Bishop.new(color, [number,2]),
+        Queen.new(color, [number, 3]),
+        King.new(color, [number,4]),
+        Bishop.new(color, [number,5]),
+        Knight.new(color, [number, 6]),
+        Rook.new(color, [number, 7])
       ]
     end
 
     def starting_pawn(color)
+      number = 6 if color == 'white'
+      number = 1 if color == 'black'
+
       8.times do |index|
-        @board[6][index] =
-        Pawn.new(color, [6, index])
+        @board[number][index] =
+        Pawn.new(color, [number, index])
       end
     end
 

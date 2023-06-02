@@ -15,13 +15,14 @@ attr_accessor :player1, :player2
     def setup
         register_players
         
-        @board.starting_locations(@player1.color)
+        @board.starting_locations(@player1)
+        @board.starting_locations(@player2)
         @board.print_board
     end
 
     def register_players
-        puts "Oress 1 to play Human vs Human"
-        puts "press 2 to play Human vs Computer"
+        puts "Press 1 to play Human vs Human"
+        puts "Press 2 to play Human vs Computer"
         answer = gets.chomp.to_i
         if answer == 1
             puts "You have chosen to play Human vs Human"
