@@ -26,7 +26,11 @@ class Board
           end
           printed << temp_row
         end
-        printed.each { |row| puts row.join }
+        puts "   A  B  C  D  E  F  G  H "
+        printed.each_with_index do  |row, id| 
+          print "#{id+1} "
+          puts row.join
+        end 
       end
 
 end
