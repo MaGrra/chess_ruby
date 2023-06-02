@@ -5,27 +5,35 @@ require_relative './player'
 require_relative './color'
 
 class Game
-attr_reader :player1, :player2
+attr_accessor :player1, :player2
 
     def initialize
+        @board = Board.new
         setup
     end
 
     def setup
+        register_players
+        
+        @board.starting_locations(@player1.color)
+        @board.print_board
+    end
+
+    def register_players
         puts "Oress 1 to play Human vs Human"
         puts "press 2 to play Human vs Computer"
         answer = gets.chomp.to_i
         if answer == 1
             puts "You have chosen to play Human vs Human"
-            sleep(1)
+            sleep(0.5)
             set_players(answer)
         elsif answer == 2
             puts "You have chosen to play vs Computer"
-            sleep(1)
+            sleep(0.5)
             set_players(answer)
         else 
             puts "Please press 1 OR 2"
-            setup
+            register_players
         end
     end
 

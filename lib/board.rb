@@ -1,4 +1,5 @@
 require_relative './color'
+require_relative './pieces_type'
 
 class Board
 
@@ -17,11 +18,28 @@ class Board
         end
     end
 
+    def starting_locations(color)
+      starting_pawn(color)
+    end
+
+    def starting_pawn(color)
+      8.times do |index|
+        @board[6][index] =
+        Pawn.new(color, [6, index])
+      end
+    end
+
+    def background_color(piece)
+      y, x = piece.location
+      (x+y).even? ? piece.symbol.black.bg_gray : piece.symbol.gray.bg_black
+    end
+
     def print_board
         printed = []
         @board.each do |row|
           temp_row = []
           row.each do |cell|
+            cell = cell.instance_of?(Pawn) ? background_color(cell) : cell
             temp_row << cell
           end
           printed << temp_row
