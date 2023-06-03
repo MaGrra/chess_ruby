@@ -18,6 +18,10 @@ class Board
         end
     end
 
+    def fetch_piece(location)
+      @board[location[0]][location[1]]
+    end
+
     def starting_locations(player)
       if player.computer_game == false
         player.color == 'white' ? number = 7 : number = 0

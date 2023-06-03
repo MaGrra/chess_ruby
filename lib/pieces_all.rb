@@ -1,3 +1,5 @@
+require_relative './board'
+require_relative './player'
 
 class Piece
 
@@ -5,4 +7,5 @@ class Piece
         @color = color
     end
     
+
 end

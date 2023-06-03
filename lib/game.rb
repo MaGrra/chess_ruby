@@ -7,6 +7,17 @@ require_relative './color'
 class Game
 attr_accessor :player1, :player2, :current_player
 
+NUMBERS = {
+    'a' => 0,
+    'b' => 1,
+    'c' => 2,
+    'd' => 3,
+    'e' => 4,
+    'f' => 5,
+    'g' => 6,
+    'h' => 7
+}
+
     def initialize
         @board = Board.new
     end
@@ -30,19 +41,37 @@ attr_accessor :player1, :player2, :current_player
     def make_move
         puts "\It's #{@current_player.name}'s move! Chose which piece to move!"
         puts "Example - c2"
-        chose_piece(valid_choice)
+        piece = @board.fetch_piece(valid_choice)
+        is_valid_piece?(piece)
+    end
+
+    def is_valid_piece?(piece)
+        if piece.is_a?(Piece) && piece.instance_variable_get(:@color) == @current_player.color
+            puts "Works?"
+        else
+            puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold
+            make_move
+        end
     end
 
 
     def valid_choice
-        choice = gets.chomp.chars
-        if choice.length != 2 
-            puts "The format used should be like this c2\n"
-            valid_choice
+        choice = gets.chomp.downcase.chars
+        if correct_input?(choice) == false
+          puts "The format used should be like this c2\n"
+          valid_choice
         else
-            return choice
+          return result = [choice[1].to_i - 1, NUMBERS[choice[0]]]
         end
-    end
+      end
+
+      def correct_input?(choice)
+        return false if choice.length != 2
+        return false unless ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].include?(choice[0])
+        return false unless choice[1].to_i.between?(1, 8)
+        
+        true
+      end
 
     def switch_players
         @current_player == @player1 ? @player2 : @player1
