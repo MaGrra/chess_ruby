@@ -3,20 +3,12 @@ require_relative './pieces_all'
 require_relative './pieces_type'
 require_relative './player'
 require_relative './color'
+require_relative './general'
 
 class Game
 attr_accessor :player1, :player2, :current_player
 
-NUMBERS = {
-    'a' => 0,
-    'b' => 1,
-    'c' => 2,
-    'd' => 3,
-    'e' => 4,
-    'f' => 5,
-    'g' => 6,
-    'h' => 7
-}
+
 
     def initialize
         @board = Board.new
@@ -43,11 +35,25 @@ NUMBERS = {
         puts "Example - c2"
         piece = @board.fetch_piece(valid_choice)
         is_valid_piece?(piece)
+        puts "Your available moves are: #{possible_moves(piece.show_available_moves, piece)}"
+
+    end
+
+    def possible_moves(moves, piece)
+        result = []
+        moves.each do | move |
+            location_piece = @board.fetch_piece(move)
+            unless location_piece.instance_variable_get(:@color) == @current_player.color
+                result << [move[0]+1, Global::NUMBERS.key(move[1])]
+            end
+        end
+        piece.update_moves(result)
     end
 
     def is_valid_piece?(piece)
         if piece.is_a?(Piece) && piece.instance_variable_get(:@color) == @current_player.color
-            puts "Works?"
+            puts "You have chosen a #{piece.instance_variable_get(:@color)} #{piece.class.name}"
+            piece
         else
             puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold
             make_move
@@ -61,7 +67,7 @@ NUMBERS = {
           puts "The format used should be like this c2\n"
           valid_choice
         else
-          return result = [choice[1].to_i - 1, NUMBERS[choice[0]]]
+          return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]]
         end
       end
 
