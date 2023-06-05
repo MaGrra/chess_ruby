@@ -36,7 +36,14 @@ attr_accessor :player1, :player2, :current_player
         piece = @board.fetch_piece(valid_choice)
         is_valid_piece?(piece)
         puts "Your available moves are: #{possible_moves(piece.show_available_moves, piece)}"
+        puts "Where do you want to move this #{piece.class.name}?"
+        move(piece)
 
+    end
+
+    def move(piece)
+        new_location = valid_choice
+        @board.move_piece(new_location, piece)
     end
 
     def possible_moves(moves, piece)
@@ -52,7 +59,7 @@ attr_accessor :player1, :player2, :current_player
 
     def is_valid_piece?(piece)
         if piece.is_a?(Piece) && piece.instance_variable_get(:@color) == @current_player.color
-            puts "You have chosen a #{piece.instance_variable_get(:@color)} #{piece.class.name}"
+            puts "You have chosen a #{piece.instance_variable_get(:@color)} #{piece.class.name} "
             piece
         else
             puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold

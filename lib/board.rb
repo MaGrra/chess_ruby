@@ -18,6 +18,17 @@ class Board
         end
     end
 
+    def move_piece(location, piece)
+      x, y = location
+      @board[x][y] = piece
+      @board[x][y] = (x + y).even? ? piece.instance_variable_get(:@symbol).bg_gray : piece.instance_variable_get(:@symbol).bg_black
+
+      i, j = piece.instance_variable_get(:@location)
+      @board[i][j] = (i+j).even? ? '   '.bg_gray : '   '.bg_black
+      
+      print_board
+    end
+
     def fetch_piece(location)
       @board[location[0]][location[1]]
     end

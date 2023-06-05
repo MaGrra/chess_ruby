@@ -53,6 +53,10 @@ class Knight < Piece
             @available_moves = moves
         end
 
+        def delete
+            self.delete
+        end
+
     
     end
 

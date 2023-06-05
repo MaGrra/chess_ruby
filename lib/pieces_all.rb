@@ -13,4 +13,9 @@ class Piece
         p self.instance_variable_get(:@available_moves)
     end
 
+    def delete
+        self.delete
+        return
+    end
+
 end
