@@ -27,7 +27,12 @@ attr_accessor :player1, :player2, :current_player
     def play_game
         setup
         @current_player = switch_players
+        i = 0
+        until i == 5
         make_move
+        switch_players
+        i += 1
+        end
     end
 
     def make_move
@@ -35,7 +40,8 @@ attr_accessor :player1, :player2, :current_player
         puts "Example - c2"
         piece = @board.fetch_piece(valid_choice)
         is_valid_piece?(piece)
-        puts "Your available moves are: #{possible_moves(piece.show_available_moves, piece)}"
+        print "Your available moves are: "
+        puts "#{possible_moves(piece.show_available_moves, piece)}".bold
         puts "Where do you want to move this #{piece.class.name}?"
         move(piece)
 
@@ -44,6 +50,7 @@ attr_accessor :player1, :player2, :current_player
     def move(piece)
         new_location = valid_choice
         @board.move_piece(new_location, piece)
+        
     end
 
     def possible_moves(moves, piece)
@@ -51,7 +58,7 @@ attr_accessor :player1, :player2, :current_player
         moves.each do | move |
             location_piece = @board.fetch_piece(move)
             unless location_piece.instance_variable_get(:@color) == @current_player.color
-                result << [move[0]+1, Global::NUMBERS.key(move[1])]
+                result << ([Global::NUMBERS.key(move[1]), (move[0]+1).to_s]).join
             end
         end
         piece.update_moves(result)
@@ -87,7 +94,7 @@ attr_accessor :player1, :player2, :current_player
       end
 
     def switch_players
-        @current_player == @player1 ? @player2 : @player1
+        @current_player == @player1 ? @current_player = @player2 : @current_player = @player1
     end
 
     def set_board

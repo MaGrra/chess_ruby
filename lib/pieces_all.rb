@@ -2,9 +2,12 @@ require_relative './board'
 require_relative './player'
 
 class Piece
+    attr_reader :color
+    attr_accessor :location
 
-    def initialize(color)
+    def initialize(color, location)
         @color = color
+        @location = location
         @available_moves = []
     end
     
@@ -13,9 +16,11 @@ class Piece
         p self.instance_variable_get(:@available_moves)
     end
 
-    def delete
-        self.delete
-        return
+    def update_location(new_location)
+        @location = new_location
+        p @location
     end
+
+
 
 end

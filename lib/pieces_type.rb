@@ -2,7 +2,8 @@ require_relative './pieces_all'
 require_relative './board.rb'
 
 class Pawn < Piece
-attr_reader :symbol, :location
+attr_reader :symbol
+attr_accessor :location
     def initialize(color, location)
         @color = color
         @location = location
@@ -51,10 +52,6 @@ class Knight < Piece
 
         def update_moves(moves)
             @available_moves = moves
-        end
-
-        def delete
-            self.delete
         end
 
     

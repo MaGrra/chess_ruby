@@ -21,12 +21,17 @@ class Board
     def move_piece(location, piece)
       x, y = location
       @board[x][y] = piece
-      @board[x][y] = (x + y).even? ? piece.instance_variable_get(:@symbol).bg_gray : piece.instance_variable_get(:@symbol).bg_black
 
       i, j = piece.instance_variable_get(:@location)
       @board[i][j] = (i+j).even? ? '   '.bg_gray : '   '.bg_black
+      piece.update_location(location)
+      puts "Piece - #{piece}"
+      p "Random #{@board[i][j+1]}"
+      p "New - #{@board[x][y]}"
+      p "Old - #{@board[i][j]}"
       
       print_board
+      #add new location data update i guess ?
     end
 
     def fetch_piece(location)
