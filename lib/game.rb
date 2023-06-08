@@ -28,7 +28,7 @@ attr_accessor :player1, :player2, :current_player
         setup
         @current_player = switch_players
         i = 0
-        until i == 5
+        until i == 10
         make_move
         switch_players
         i += 1
@@ -41,16 +41,22 @@ attr_accessor :player1, :player2, :current_player
         piece = @board.fetch_piece(valid_choice)
         is_valid_piece?(piece)
         print "Your available moves are: "
-        puts "#{possible_moves(piece.show_available_moves, piece)}".bold
+        puts "#{possible_moves(piece.show_available_moves(@board), piece)}".bold
         puts "Where do you want to move this #{piece.class.name}?"
-        move(piece)
+        #puts "This is available #{piece.show_available_moves(@board)}"
+        #puts "This is the location current #{piece.location}"
+        move(piece) 
 
     end
 
     def move(piece)
         new_location = valid_choice
-        @board.move_piece(new_location, piece)
-        
+        if piece.show_available_moves(@board).include?(new_location)
+            @board.move_piece(new_location, piece)
+        else
+            puts "Please choose one of the possible locations"
+            move(piece)
+        end
     end
 
     def possible_moves(moves, piece)

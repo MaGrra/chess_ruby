@@ -18,7 +18,7 @@ class Piece
 
     def update_location(new_location)
         @location = new_location
-        p @location
+        @is_moved = true
     end
 
 

@@ -25,13 +25,7 @@ class Board
       i, j = piece.instance_variable_get(:@location)
       @board[i][j] = (i+j).even? ? '   '.bg_gray : '   '.bg_black
       piece.update_location(location)
-      puts "Piece - #{piece}"
-      p "Random #{@board[i][j+1]}"
-      p "New - #{@board[x][y]}"
-      p "Old - #{@board[i][j]}"
-      
       print_board
-      #add new location data update i guess ?
     end
 
     def fetch_piece(location)
@@ -46,6 +40,17 @@ class Board
       end
       starting_pawn(player)
       starting_other(player, number)
+    end
+
+    def pawn_scan(x, y)
+      result = []
+      @board[x][y].color == 'white' ? scan_attack = [[-1, -1], [-1, 1]] : scan_attack = [[-1, 1], [1, 1]]
+      scan_attack.each do | loc |
+        scan_location =  @board[loc[0] + x][loc[1] + y]
+        result << scan_location.location if scan_location.is_a?(Piece) && scan_location.color != @board[x][y].color
+        #THIS NEEDS WORK
+      end
+      result
     end
 
     def starting_other(player, number)

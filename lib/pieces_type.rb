@@ -3,12 +3,35 @@ require_relative './board.rb'
 
 class Pawn < Piece
 attr_reader :symbol
-attr_accessor :location
+attr_accessor :location, :is_moved
+
+    MOVES = [[-1, 0]]
     def initialize(color, location)
         @color = color
         @location = location
         color == 'white' ? @symbol = ' ♙ ' : @symbol = ' ♟︎ '
         @available_moves = []
+        @is_moved = false
+    end
+
+    def show_available_moves(board)
+        moves = []
+        @color == "white" ? num = -1 : num = 1
+        x = @location[0]
+        y = @location[1]
+        moves << [x + num, y]
+        moves << [x + (num * 2), y] if @is_moved == false
+        capture = board.pawn_scan(x, y).flatten
+        moves << capture unless capture.empty?
+        return moves
+    end
+
+    def valid_pawn_move?(x, y)
+        true if  x.between?(0, 7) && y.between?(0, 7)
+    end
+
+    def update_moves(moves)
+        @available_moves = moves
     end
 
 end
@@ -40,7 +63,7 @@ class Knight < Piece
             @available_moves = []
         end
 
-        def show_available_moves
+        def show_available_moves(board)
             moves = []
             MOVES.each do |move|
                 x = move[0] + @location[0]
