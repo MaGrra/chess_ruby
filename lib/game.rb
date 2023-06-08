@@ -21,16 +21,15 @@ class Game
   end
 
   def first_player
-    @current_player = @player2.color == 'white' ? @player1 : @player2
+    @current_player = @player1.color == 'white' ? @player1 : @player2
   end
 
   def play_game
     setup
-    @current_player = switch_players
     i = 0
     until i == 10
+      
       make_move
-      switch_players
       i += 1
     end
   end
@@ -40,12 +39,15 @@ class Game
     puts 'Example - c2'
     piece = @board.fetch_piece(valid_choice)
     is_valid_piece?(piece)
-    print 'Your available moves are: '
-    puts possible_moves(piece.show_available_moves(@board), piece).to_s.bold
+    moves = piece.show_available_moves(@board)
+    moves = possible_moves(moves, piece)
+    return if moves.nil?
     puts "Where do you want to move this #{piece.class.name}?"
     # puts "This is available #{piece.show_available_moves(@board)}"
     # puts "This is the location current #{piece.location}"
     move(piece)
+    @current_player = switch_players
+
   end
 
   def move(piece)
@@ -53,7 +55,7 @@ class Game
     if piece.show_available_moves(@board).include?(new_location)
       @board.move_piece(new_location, piece)
     else
-      puts 'Please choose one of the possible locations'
+      puts "Please choose one of the possible locations - #{piece.return_available_moves}"
       move(piece)
     end
   end
@@ -66,8 +68,17 @@ class Game
         result << [Global::NUMBERS.key(move[1]), (move[0] + 1).to_s].join
       end
     end
-    piece.update_moves(result)
+    if result.empty?
+        puts "No moves are possible with this piece".bold
+        return nil #HERE
+    else 
+        print 'Your available moves are: '
+        puts "#{result}".bold
+        piece.update_moves(result)
+        result
+    end
   end
+
 
   def is_valid_piece?(piece)
     if piece.is_a?(Piece) && piece.instance_variable_get(:@color) == @current_player.color
@@ -75,7 +86,6 @@ class Game
       piece
     else
       puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold
-      make_move
     end
   end
 

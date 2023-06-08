@@ -45,7 +45,7 @@ class Board
 
   def pawn_scan(x, y)
     result = []
-    scan_attack = @board[x][y].color == 'white' ? [[-1, -1], [-1, 1]] : [[-1, 1], [1, 1]]
+    scan_attack = @board[x][y].color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
     scan_attack.each do |loc|
       scan_location = @board[loc[0] + x][loc[1] + y]
       result << scan_location.location if scan_location.is_a?(Piece) && scan_location.color != @board[x][y].color

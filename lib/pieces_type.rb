@@ -5,7 +5,7 @@ require_relative './board'
 
 class Pawn < Piece
   attr_reader :symbol
-  attr_accessor :location, :is_moved
+  attr_accessor :location, :is_moved, :available_moves
 
   MOVES = [[-1, 0]].freeze
   def initialize(color, location)

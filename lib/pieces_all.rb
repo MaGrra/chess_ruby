@@ -4,7 +4,7 @@ require_relative './board'
 require_relative './player'
 
 class Piece
-  attr_reader :color
+  attr_reader :color, :available_moves
   attr_accessor :location
 
   def initialize(color, location)
@@ -13,9 +13,8 @@ class Piece
     @available_moves = []
   end
 
-  def possible_locations
-    p "lol #{self}"
-    p instance_variable_get(:@available_moves)
+  def return_available_moves
+    @available_moves
   end
 
   def update_location(new_location)
