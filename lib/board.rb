@@ -49,9 +49,16 @@ class Board
     scan_attack.each do |loc|
       scan_location = @board[loc[0] + x][loc[1] + y]
       result << scan_location.location if scan_location.is_a?(Piece) && scan_location.color != @board[x][y].color
-      # THIS NEEDS WORK
     end
     result
+  end
+
+  #returns location if unaccessable
+  def pawn_path_blocked?(x, y)
+    path = @board[x][y].color == 'white' ? [-1, 0] : [1, 0]
+    scan_location = @board[path[0] + x][path[1] + y]
+    return scan_location.location if scan_location.is_a?(Piece)
+
   end
 
   def starting_other(player, number)

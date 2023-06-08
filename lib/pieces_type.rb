@@ -25,6 +25,8 @@ class Pawn < Piece
     moves << [x + (num * 2), y] if @is_moved == false
     capture = board.pawn_scan(x, y).flatten # returns array of possible capture moves
     moves << capture unless capture.empty?
+    blocked = board.pawn_path_blocked?(x, y)
+    moves.delete(blocked) unless blocked.nil?
     moves
   end
 
