@@ -40,11 +40,9 @@ class Game
     piece = @board.fetch_piece(valid_choice)
     is_valid_piece?(piece)
     moves = piece.show_available_moves(@board)
-    moves = possible_moves(moves, piece)
+    moves = possible_moves(moves, piece) #updates available moves
     return if moves.nil?
     puts "Where do you want to move this #{piece.class.name}?"
-    # puts "This is available #{piece.show_available_moves(@board)}"
-    # puts "This is the location current #{piece.location}"
     move(piece)
     @current_player = switch_players
 
@@ -70,7 +68,7 @@ class Game
     end
     if result.empty?
         puts "No moves are possible with this piece".bold
-        return nil #HERE
+        return nil 
     else 
         print 'Your available moves are: '
         puts "#{result}".bold
@@ -86,6 +84,8 @@ class Game
       piece
     else
       puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold
+      make_move
+      return nil
     end
   end
 

@@ -43,6 +43,31 @@ class Board
     starting_other(player, number)
   end
 
+#x,y - current location
+def get_rook_moves(move, x, y)
+  result = []
+  next_x = x + move[0]
+  next_y = y + move[1]
+  current_color = @board[x][y].color
+
+  while next_x >= 0 && next_x <= 7 && next_y >= 0 && next_y <= 7
+    if @board[next_x][next_y].is_a?(Piece)
+      if @board[next_x][next_y].color != current_color
+        result << [next_x, next_y]
+        break
+      else
+        break
+      end
+    else
+      result << [next_x, next_y]
+      next_x += move[0]
+      next_y += move[1]
+    end
+  end
+
+  result
+end
+
   def pawn_scan(x, y)
     result = []
     scan_attack = @board[x][y].color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
