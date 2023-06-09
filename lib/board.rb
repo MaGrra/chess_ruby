@@ -44,7 +44,8 @@ class Board
   end
 
 #x,y - current location
-def get_rook_moves(move, x, y)
+# Gets available moves for Rook, queen, bishop
+def get_moves(move, x, y)
   result = []
   next_x = x + move[0]
   next_y = y + move[1]
@@ -64,7 +65,6 @@ def get_rook_moves(move, x, y)
       next_y += move[1]
     end
   end
-
   result
 end
 

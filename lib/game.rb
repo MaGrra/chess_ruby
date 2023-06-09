@@ -37,15 +37,24 @@ class Game
   def make_move
     puts "\It's #{@current_player.name}'s move! Chose which piece to move!"
     puts 'Example - c2'
-    piece = @board.fetch_piece(valid_choice)
-    is_valid_piece?(piece)
+    piece = get_input
+    
     moves = piece.show_available_moves(@board)
-    moves = possible_moves(moves, piece) #updates available moves
+    moves = possible_moves(moves, piece) #updates available
     return if moves.nil?
     puts "Where do you want to move this #{piece.class.name}?"
     move(piece)
     @current_player = switch_players
 
+  end
+
+  def get_input
+      piece = @board.fetch_piece(valid_choice)
+        if is_valid_piece?(piece)
+          return piece
+        else 
+          get_input
+        end
   end
 
   def move(piece)
@@ -68,7 +77,7 @@ class Game
     end
     if result.empty?
         puts "No moves are possible with this piece".bold
-        return nil 
+        return nil #HERE
     else 
         print 'Your available moves are: '
         puts "#{result}".bold
@@ -84,7 +93,6 @@ class Game
       piece
     else
       puts "Please choose #{@current_player.color} pieces #{@current_player.name}".bold
-      make_move
       return nil
     end
   end
@@ -92,7 +100,7 @@ class Game
   def valid_choice
     choice = gets.chomp.downcase.chars
     return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]] unless correct_input?(choice) == false
-
+      # A PROBLEM<
     puts "The format used should be like this c2\n"
     valid_choice
   end

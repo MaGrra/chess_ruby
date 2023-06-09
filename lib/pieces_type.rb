@@ -58,11 +58,8 @@ class Rook < Piece
     x = @location[0]
     y = @location[1]
     MOVES.each do |move|
-    each_direction = board.get_rook_moves(move, x, y)
-    p each_direction
-    moves << each_direction unless each_direction.empty? #x = move[0] + @location[0]
-      #y = move[1] + @location[1]
-      #moves << [x, y] if x.between?(0, 7) && y.between?(0, 7)
+    each_direction = board.get_moves(move, x, y)
+    moves << each_direction unless each_direction.empty?
     end
     moves.flatten(1)
   end
@@ -106,16 +103,42 @@ end
 class Bishop < Piece
   attr_reader :symbol, :location
 
+  MOVES = [
+    [1, 1], [-1, -1], [1, -1], [-1, 1]
+  ]
+
   def initialize(color, location)
     @color = color
     @location = location
     @symbol = color == 'white' ? ' ♗ ' : ' ♝ '
     @available_moves = []
   end
+
+  def show_available_moves(board)
+    moves = []
+    x = @location[0]
+    y = @location[1]
+    MOVES.each do |move|
+    each_direction = board.get_moves(move, x, y)
+    moves << each_direction unless each_direction.empty? #
+    end
+    moves.flatten(1)
+  end
+
+  def update_moves(moves)
+    @available_moves = moves
+  end
+
+
 end
 
 class Queen < Piece
   attr_reader :symbol, :location
+
+  MOVES = [
+    [1, 1], [-1, -1], [1, -1], [-1, 1],
+    [1, 0], [0, 1], [-1 ,0], [0, -1]
+  ]
 
   def initialize(color, location)
     @color = color
@@ -123,15 +146,50 @@ class Queen < Piece
     @symbol = color == 'white' ? ' ♕ ' : ' ♛ '
     @available_moves = []
   end
+
+  def show_available_moves(board)
+    moves = []
+    x = @location[0]
+    y = @location[1]
+    MOVES.each do |move|
+    each_direction = board.get_moves(move, x, y)
+    moves << each_direction unless each_direction.empty? #
+    end
+    moves.flatten(1)
+  end
+
+  def update_moves(moves)
+    @available_moves = moves
+  end
+
 end
 
 class King < Piece
   attr_reader :symbol, :location
+
+  MOVES = [
+    [1, 1], [-1, -1], [1, -1], [-1, 1],
+    [1, 0], [0, 1], [-1 ,0], [0, -1]
+  ]
 
   def initialize(color, location)
     @color = color
     @location = location
     @symbol = color == 'white' ? ' ♔ ' : ' ♚ '
     @available_moves = []
+  end
+
+  def show_available_moves(board)
+    moves = []
+    MOVES.each do |move|
+      x = move[0] + @location[0]
+      y = move[1] + @location[1]
+      moves << [x, y] if x.between?(0, 7) && y.between?(0, 7)
+    end
+    moves
+  end
+
+  def update_moves(moves)
+    @available_moves = moves
   end
 end
