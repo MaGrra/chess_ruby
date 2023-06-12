@@ -8,7 +8,7 @@ require_relative './color'
 require_relative './general'
 
 class Game
-  attr_accessor :player1, :player2, :current_player
+  attr_accessor :player1, :player2, :current_player, :board
 
   def initialize
     @board = Board.new
@@ -44,7 +44,22 @@ class Game
     return if moves.nil?
     puts "Where do you want to move this #{piece.class.name}?"
     move(piece)
+    puts "The #{check_king} king is in check" unless check_king.nil?
     @current_player = switch_players
+  end
+
+  def check_king
+    moves = []
+    workboard = @board.fetch_board
+    king = @board.fetch_king_loc(@current_player)
+    workboard.each_with_index do |row, i|
+      row.each_with_index do | cell , j|
+        current_piece = @board.fetch_piece([i, j]) if workboard[i][j].is_a?(Piece) &&  workboard[i][j].color == @current_player.color
+        moves << current_piece.show_available_moves(@board) unless current_piece.nil? || current_piece.show_available_moves(@board).empty?
+        
+      end
+    end
+    return king.color if moves.flatten(1).include?(king.location)
 
   end
 
@@ -77,7 +92,7 @@ class Game
     end
     if result.empty?
         puts "No moves are possible with this piece".bold
-        return nil #HERE
+        return nil
     else 
         print 'Your available moves are: '
         puts "#{result}".bold
@@ -100,7 +115,6 @@ class Game
   def valid_choice
     choice = gets.chomp.downcase.chars
     return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]] unless correct_input?(choice) == false
-      # A PROBLEM<
     puts "The format used should be like this c2\n"
     valid_choice
   end

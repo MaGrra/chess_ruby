@@ -4,6 +4,8 @@ require_relative './color'
 require_relative './pieces_type'
 
 class Board
+  attr_reader :board
+  
   def initialize
     new_board
   end
@@ -13,7 +15,7 @@ class Board
     columns = 8
     @board = Array.new(rows) { Array.new(columns) }
     @board.each_with_index do |row, i|
-      row.each_with_index do |_cell, j|
+      row.each_with_index do | cell, j|
         @board[i][j] = (i + j).even? ? '   '.bg_gray : '   '.bg_black
       end
     end
@@ -42,6 +44,14 @@ class Board
     starting_pawn(player)
     starting_other(player, number)
   end
+
+  def fetch_king_loc(player)
+    player.color == "white" ? @king_black : @king_white
+  end 
+
+  def fetch_board
+    @board
+  end 
 
 #x,y - current location
 # Gets available moves for Rook, queen, bishop
@@ -92,7 +102,7 @@ end
       Knight.new(player.color, [number, 1]),
       Bishop.new(player.color, [number, 2]),
       Queen.new(player.color, [number, 3]),
-      King.new(player.color, [number, 4]),
+      instance_variable_set("@king_#{player.color}", King.new(player.color, [number, 4])),
       Bishop.new(player.color, [number, 5]),
       Knight.new(player.color, [number, 6]),
       Rook.new(player.color, [number, 7])
