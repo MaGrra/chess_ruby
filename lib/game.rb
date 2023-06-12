@@ -12,6 +12,7 @@ class Game
 
   def initialize
     @board = Board.new
+    @winner = nil
   end
 
   def setup
@@ -26,18 +27,21 @@ class Game
 
   def play_game
     setup
-    i = 0
-    until i == 10
-      
+    until game_over?
       make_move
-      i += 1
     end
   end
 
+  def game_over?
+    return true if @winner == @player1 || @winner == player2
+  end
+
+
   def make_move
-    puts "\It's #{@current_player.name}'s move! Chose which piece to move!"
+    puts "\It's #{@current_player.name}'s move! Chose which piece to move! OR type 'sur' to surrender"
     puts 'Example - c2'
     piece = get_input
+    return if piece.nil?
     
     moves = piece.show_available_moves(@board)
     moves = possible_moves(moves, piece) #updates available
@@ -64,12 +68,18 @@ class Game
   end
 
   def get_input
-      piece = @board.fetch_piece(valid_choice)
-        if is_valid_piece?(piece)
-          return piece
-        else 
-          get_input
-        end
+      player_input = valid_choice
+      if player_input == 'sur'
+        @winner = switch_players
+        puts "The winner is #{@winner.name} by surrender"
+      else
+        piece = @board.fetch_piece(player_input)
+          if is_valid_piece?(piece)
+            return piece
+          else 
+            get_input
+          end
+      end
   end
 
   def move(piece)
@@ -114,12 +124,15 @@ class Game
 
   def valid_choice
     choice = gets.chomp.downcase.chars
+    return choice.join if choice.join == 'sur'
     return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]] unless correct_input?(choice) == false
     puts "The format used should be like this c2\n"
     valid_choice
   end
 
+
   def correct_input?(choice)
+    return true if choice == 'sur'
     return false if choice.length != 2
     return false unless %w[a b c d e f g h].include?(choice[0])
     return false unless choice[1].to_i.between?(1, 8)
