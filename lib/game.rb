@@ -46,11 +46,35 @@ class Game
     moves = piece.show_available_moves(@board)
     moves = possible_moves(moves, piece) #updates available
     return if moves.nil?
-    puts "Where do you want to move this #{piece.class.name}?"
-    move(piece)
-    puts "The #{check_king} king is in check" unless check_king.nil?
+    puts "Where do you want to move this #{piece.class.name}? or type 'cancel' to choose different piece"
+    return if move(piece).nil?
+    puts "The #{check_king} king is in check".bold.red unless check_king.nil?
+    kings_left?
     @current_player = switch_players
   end
+
+    def kings_left?
+      moves = []
+      other_player = @current_player == @player1 ? @player2 : @player1
+      workboard = @board.fetch_board
+      king = @board.fetch_king_loc(@current_player)
+      workboard.each_with_index do |row, i|
+        row.each_with_index do | cell , j|
+          current_piece = @board.fetch_piece([i, j]) if workboard[i][j].is_a?(Piece) &&  workboard[i][j].color == @current_player.color
+          moves << current_piece.location unless current_piece.nil? 
+        end
+      end
+   
+      if moves.include?(king.location)
+        puts "The winner is #{@current_player.name}.".bold
+        @winner = @current_player 
+      else 
+        return
+      end
+      #p @board.fetch_king_loc(@player1)
+      #p @board.fetch_king_loc(@player2)
+      #seit kaut kas lidzigs ka check king , ja king location ir vienads ar kadu citu location tad delete king.
+    end
 
   def check_king
     moves = []
@@ -84,6 +108,7 @@ class Game
 
   def move(piece)
     new_location = valid_choice
+    return if new_location == 'cancel'
     if piece.show_available_moves(@board).include?(new_location)
       @board.move_piece(new_location, piece)
     else
@@ -125,6 +150,7 @@ class Game
   def valid_choice
     choice = gets.chomp.downcase.chars
     return choice.join if choice.join == 'sur'
+    return choice.join if choice.join == 'cancel'
     return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]] unless correct_input?(choice) == false
     puts "The format used should be like this c2\n"
     valid_choice

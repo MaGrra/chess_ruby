@@ -2,6 +2,14 @@
 
 Chess needs:
 
+Save game!
+    seriliaze the board
+    Add option to continue previous game
+
+Computer player
+    Choose random piece and move it somewhere
+
+
 {A board with numeration
 {The board needs to know its numeration
 
@@ -31,16 +39,20 @@ Class Game
 {IF contains opponent piece - it gets deleted
 {switch player
 
-Save game!
-Check king
-scan the board for the opposite king - get its location
-scan board for @current_player pieces - check if they have kings location in available location
-if no - return
-if yes - check for checkmate
-    get all the possible moves a king can make
-    each goes thrugh if in way of a diffe
-Game over
-    Checkmate
-    Surrender
+
+
+{Check king
+{scan the board for the opposite king - get its location
+[scan board for @current_player pieces - check if they have kings location in available location
+[if no - return
+[if yes - check for checkmate
+    [get all the possible moves a king can make
+    [each goes thrugh if in way of a diffe
+[Game over
+    [Checkmate
+    [Surrender
+
+
+
     
 

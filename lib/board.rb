@@ -49,6 +49,10 @@ class Board
     player.color == "white" ? @king_black : @king_white
   end 
 
+  def delete_king(king)
+    self.delete
+  end
+
   def fetch_board
     @board
   end 
