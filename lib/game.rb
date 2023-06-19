@@ -6,6 +6,7 @@ require_relative './pieces_type'
 require_relative './player'
 require_relative './color'
 require_relative './general'
+require 'yaml'
 
 class Game
   attr_accessor :player1, :player2, :current_player, :board
@@ -111,6 +112,8 @@ end
       if player_input == 'sur'
         @winner = switch_players
         puts "The winner is #{@winner.name} by surrender"
+      elsif player_input == 'cancel'
+        return nil
       else
         piece = @board.fetch_piece(player_input)
           if is_valid_piece?(piece)
@@ -187,9 +190,30 @@ end
     choice = gets.chomp.downcase.chars
     return choice.join if choice.join == 'sur'
     return choice.join if choice.join == 'cancel'
+    if choice.join == 'save'
+      save_game
+      return 'cancel'
+    end
+
     return result = [choice[1].to_i - 1, Global::NUMBERS[choice[0]]] unless correct_input?(choice) == false
     puts "The format used should be like this c2\n"
     valid_choice
+  end
+
+  def save_game
+    puts 'Chose a name for the save'
+    filename = get_save_name
+    serialized_object = YAML.dump(self)
+    File.open(File.join(Dir.pwd, "/saves/#{filename}.yaml"), 'w') { |file| file.write serialized_object }
+  end
+
+  def get_save_name
+    filenames = Dir.glob('saves/*').map { |file| file[(file.index('/') + 1)...(file.index('.'))] }
+    filename = gets.chomp
+    return filename unless filenames.include?(filename)
+  
+    puts 'This name is taken'
+    get_save_name
   end
 
 
