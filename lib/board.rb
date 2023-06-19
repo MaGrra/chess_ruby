@@ -28,7 +28,6 @@ class Board
     i, j = piece.instance_variable_get(:@location)
     @board[i][j] = (i + j).even? ? '   '.bg_gray : '   '.bg_black
     piece.update_location(location)
-    print_board
   end
 
   def fetch_piece(location)

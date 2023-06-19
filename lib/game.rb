@@ -14,6 +14,7 @@ class Game
   def initialize
     @board = Board.new
     @winner = nil
+    setup
   end
 
   def setup
@@ -27,8 +28,9 @@ class Game
   end
 
   def play_game
-    setup
+  
     until game_over?
+      @board.print_board
       update_available_all
         make_move
     end
@@ -191,7 +193,7 @@ end
     return choice.join if choice.join == 'sur'
     return choice.join if choice.join == 'cancel'
     if choice.join == 'save'
-      save_game
+      Global::save_game(self)
       return 'cancel'
     end
 
@@ -200,21 +202,7 @@ end
     valid_choice
   end
 
-  def save_game
-    puts 'Chose a name for the save'
-    filename = get_save_name
-    serialized_object = YAML.dump(self)
-    File.open(File.join(Dir.pwd, "/saves/#{filename}.yaml"), 'w') { |file| file.write serialized_object }
-  end
-
-  def get_save_name
-    filenames = Dir.glob('saves/*').map { |file| file[(file.index('/') + 1)...(file.index('.'))] }
-    filename = gets.chomp
-    return filename unless filenames.include?(filename)
   
-    puts 'This name is taken'
-    get_save_name
-  end
 
 
   def correct_input?(choice)
@@ -233,7 +221,6 @@ end
   def set_board
     @board.starting_locations(@player1)
     @board.starting_locations(@player2)
-    @board.print_board
   end
 
   def register_players

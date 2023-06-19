@@ -14,7 +14,9 @@ board: !ruby/object:Board
       - 0
       - 1
       symbol: " ♞ "
-      available_moves: []
+      available_moves:
+      - c3
+      - a3
     - !ruby/object:Bishop
       color: black
       location:
@@ -49,7 +51,9 @@ board: !ruby/object:Board
       - 0
       - 6
       symbol: " ♞ "
-      available_moves: []
+      available_moves:
+      - h3
+      - f3
     - !ruby/object:Rook
       color: black
       location:
@@ -57,21 +61,16 @@ board: !ruby/object:Board
       - 7
       symbol: " ♜ "
       available_moves: []
-  - - !ruby/object:Pawn
-      color: black
-      location:
-      - 1
-      - 0
-      symbol: " ♟︎ "
-      available_moves: []
-      is_moved: false
+  - - "\e[40m   \e[0m"
     - !ruby/object:Pawn
       color: black
       location:
       - 1
       - 1
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - b3
+      - b4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -79,7 +78,9 @@ board: !ruby/object:Board
       - 1
       - 2
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - c3
+      - c4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -87,7 +88,9 @@ board: !ruby/object:Board
       - 1
       - 3
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - d3
+      - d4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -95,7 +98,9 @@ board: !ruby/object:Board
       - 1
       - 4
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - e3
+      - e4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -103,7 +108,9 @@ board: !ruby/object:Board
       - 1
       - 5
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - f3
+      - f4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -111,7 +118,9 @@ board: !ruby/object:Board
       - 1
       - 6
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - g3
+      - g4
       is_moved: false
     - !ruby/object:Pawn
       color: black
@@ -119,7 +128,9 @@ board: !ruby/object:Board
       - 1
       - 7
       symbol: " ♟︎ "
-      available_moves: []
+      available_moves:
+      - h3
+      - h4
       is_moved: false
   - - "\e[47m   \e[0m"
     - "\e[40m   \e[0m"
@@ -129,7 +140,16 @@ board: !ruby/object:Board
     - "\e[40m   \e[0m"
     - "\e[47m   \e[0m"
     - "\e[40m   \e[0m"
-  - - "\e[40m   \e[0m"
+  - - !ruby/object:Pawn
+      color: black
+      location:
+      - 3
+      - 0
+      symbol: " ♟︎ "
+      available_moves:
+      - a3
+      - a4
+      is_moved: true
     - "\e[47m   \e[0m"
     - "\e[40m   \e[0m"
     - "\e[47m   \e[0m"
@@ -139,7 +159,15 @@ board: !ruby/object:Board
     - "\e[47m   \e[0m"
   - - "\e[47m   \e[0m"
     - "\e[40m   \e[0m"
-    - "\e[47m   \e[0m"
+    - !ruby/object:Pawn
+      color: white
+      location:
+      - 4
+      - 2
+      symbol: " ♙ "
+      available_moves:
+      - c4
+      is_moved: true
     - "\e[40m   \e[0m"
     - "\e[47m   \e[0m"
     - "\e[40m   \e[0m"
@@ -173,16 +201,7 @@ board: !ruby/object:Board
       - b6
       - b5
       is_moved: false
-    - !ruby/object:Pawn
-      color: white
-      location:
-      - 6
-      - 2
-      symbol: " ♙ "
-      available_moves:
-      - c6
-      - c5
-      is_moved: false
+    - "\e[47m   \e[0m"
     - !ruby/object:Pawn
       color: white
       location:
@@ -262,7 +281,10 @@ board: !ruby/object:Board
       - 7
       - 3
       symbol: " ♕ "
-      available_moves: []
+      available_moves:
+      - c7
+      - b6
+      - a5
     - &1 !ruby/object:King
       color: white
       location:
@@ -297,7 +319,7 @@ board: !ruby/object:Board
   king_black: *2
 winner:
 player1: &3 !ruby/object:Player
-  name: Ma
+  name: Mar
   color: white
   computer_game: false
 player2: !ruby/object:Player
