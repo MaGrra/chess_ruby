@@ -28,24 +28,41 @@ class Game
   def play_game
     setup
     until game_over?
-      make_move
+      update_available_all
+        make_move
     end
-  end
+end
 
   def game_over?
     return true if @winner == @player1 || @winner == player2
   end
 
+  def update_available_all
+    workboard = @board.fetch_board
+    workboard.each_with_index do |row, i|
+      row.each_with_index do |cell, j|
+        if cell.is_a?(Piece) && cell.color == @current_player.color
+          piece = cell
+          moves = piece.show_available_moves(@board) 
+          moves = possible_moves(moves, piece) #updates available moves
+          
+        end
+
+      end
+    end
+
+  end
+
+
 
   def make_move
     puts "\It's #{@current_player.name}'s move! Chose which piece to move! OR type 'sur' to surrender"
     puts 'Example - c2'
+
     piece = get_input
     return if piece.nil?
+    puts " Your available moves are: #{piece.available_moves}".red
     
-    moves = piece.show_available_moves(@board)
-    moves = possible_moves(moves, piece) #updates available
-    return if moves.nil?
     puts "Where do you want to move this #{piece.class.name}? or type 'cancel' to choose different piece"
     return if move(piece).nil?
     puts "The #{check_king} king is in check".bold.red unless check_king.nil?
@@ -71,9 +88,6 @@ class Game
       else 
         return
       end
-      #p @board.fetch_king_loc(@player1)
-      #p @board.fetch_king_loc(@player2)
-      #seit kaut kas lidzigs ka check king , ja king location ir vienads ar kadu citu location tad delete king.
     end
 
   def check_king
@@ -92,7 +106,8 @@ class Game
   end
 
   def get_input
-      player_input = valid_choice
+    player_input = valid_choice if @current_player.computer_game == false
+    player_input = computer_choice if @current_player.computer_game == true
       if player_input == 'sur'
         @winner = switch_players
         puts "The winner is #{@winner.name} by surrender"
@@ -106,8 +121,32 @@ class Game
       end
   end
 
+  def computer_choice
+    possible = []
+    workboard = @board.fetch_board
+    workboard.each_with_index do |row, i|
+      row.each_with_index do | cell , j|
+        if cell.is_a?(Piece) && cell.color == @current_player.color && !cell.available_moves.empty?
+          possible << cell.location
+
+        end
+
+      end
+    end
+    possible.sample
+  end
+
+
+
   def move(piece)
-    new_location = valid_choice
+    if @current_player.computer_game == false
+      new_location = valid_choice
+    else
+      computer = piece.available_moves.sample
+      computer.split()
+      new_location = [computer[1].to_i - 1, Global::NUMBERS[computer[0]]]
+      sleep(0.5)
+    end
     return if new_location == 'cancel'
     if piece.show_available_moves(@board).include?(new_location)
       @board.move_piece(new_location, piece)
@@ -126,11 +165,8 @@ class Game
       end
     end
     if result.empty?
-        puts "No moves are possible with this piece".bold
         return nil
     else 
-        print 'Your available moves are: '
-        puts "#{result}".bold
         piece.update_moves(result)
         result
     end
@@ -202,12 +238,10 @@ class Game
       @player2 = Player.new(gets.chomp, 'black')
 
     else
-      puts 'Enter your name'
+      puts 'Enter your name. You will be playing white'
       name = gets.chomp
-      color = valid_color_input
-      @player1 = Player.new(name, color, true)
-      pc_color = color == 'white' ? 'black' : 'white'
-      @player2 = Player.new('Computer', pc_color, true)
+      @player1 = Player.new(name, 'white')
+      @player2 = Player.new('Computer', 'black', true)
     end
   end
 

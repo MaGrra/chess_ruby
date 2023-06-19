@@ -36,11 +36,8 @@ class Board
   end
 
   def starting_locations(player)
-    number = if player.computer_game == false
-               player.color == 'white' ? 7 : 0
-             else
-               player.color == 'white' ? 0 : 7
-             end
+    number = player.color == 'white' ? 7 : 0
+
     starting_pawn(player)
     starting_other(player, number)
   end
@@ -114,13 +111,9 @@ end
   end
 
   def starting_pawn(player)
-    if player.computer_game == false
+
       number = 6 if player.color == 'white'
       number = 1 if player.color == 'black'
-    else
-      number = 1 if player.color == 'white'
-      number = 6 if player.color == 'black'
-    end
 
     8.times do |index|
       @board[number][index] =

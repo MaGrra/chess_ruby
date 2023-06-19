@@ -6,8 +6,8 @@ Save game!
     seriliaze the board
     Add option to continue previous game
 
-Computer player
-    Choose random piece and move it somewhere
+{omputer player
+    {Choose random piece and move it somewhere
 
 
 {A board with numeration
